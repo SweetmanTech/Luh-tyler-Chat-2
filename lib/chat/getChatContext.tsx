@@ -12,6 +12,8 @@ import getRecentScore from "./getRecentScore";
 import getScoresInPast24 from "./getScoresInPast24";
 import getFans from "./getFans";
 import { INSTRUCTION, NOTES } from "./const";
+import getFanSegments from "./getFanSegments";
+import getScoreContext from "./getScoreContext";
 
 const getChatContext = async () => {
   const context = [];
@@ -22,26 +24,23 @@ const getChatContext = async () => {
   context.push(INSTRUCTION);
 
   context.push(
-    `\n\n1. Fans for the latest campaign in the format (userNames, artistNames, country, city, user_type):\n\t`,
+    `\n\n1. Fans for the latest campaign in the format (userNames, artistNames, country, city, user_type, segment_type):\n\t`,
   );
   const fanContext = await getFans(client);
   context.push(fanContext);
 
+  await getFanSegments(client);
   const follows = await getFollows(client);
   context.push(`\n2. Followers: ${follows}`);
 
   let scoreContext = `\n3. Scores of fan ( please calculate a count for each username to indicate the number of times each player has played the game.) \n`;
   scores.map((score: SCORE_EVENT) => {
-    scoreContext =
-      scoreContext +
-      `{ username: "${score.metadata.username}", timeToGetScore: ${score.metadata.time}, fanId: "${score.metadata.userId}", score: ${score.points}, playedAt: ${new Date(score.timestamp).toDateString()}}\n`;
+    scoreContext = scoreContext + getScoreContext(score) + "\n";
   });
   context.push(scoreContext);
 
   const topScore = getTopScore(scores);
-  context.push(
-    `\n4. Highest scoring fan: ${topScore.metadata.username}(score is ${topScore.points})`,
-  );
+  context.push(`\n4. Highest scoring fan: ${getScoreContext(topScore)}`);
 
   const mostPlayedFan = getMostPlayed(scores);
   context.push(`\n5. Most played fan: ${mostPlayedFan}`);
@@ -68,7 +67,7 @@ const getChatContext = async () => {
 
   const recentScore = getRecentScore(scores);
   context.push(
-    `\n10. Fan who has the most recent score: ${recentScore.metadata.username}`,
+    `\n10. Fan who has the most recent score: ${getScoreContext(recentScore)}`,
   );
 
   const scoresInPast24 = getScoresInPast24(scores);
