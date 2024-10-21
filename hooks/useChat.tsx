@@ -7,6 +7,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import useInitialMessages from "./useInitialMessages";
 import { useState } from "react";
 import { SUGGESTIONS } from "@/lib/consts";
+import { v4 as uuidV4 } from "uuid";
 
 const useChat = () => {
   const { login, user } = usePrivy();
@@ -14,7 +15,7 @@ const useChat = () => {
   const csrfToken = useCsrfToken();
   const accountId = "3664dcb4-164f-4566-8e7c-20b2c93f9951";
   const queryClient = useQueryClient();
-  const { initialMessages } = useInitialMessages();
+  const { initialMessages, fetchInitialMessages } = useInitialMessages();
   const [suggestions, setSuggestions] = useState(SUGGESTIONS);
 
   const {
@@ -24,6 +25,7 @@ const useChat = () => {
     handleSubmit: handleAiChatSubmit,
     append: appendAiChat,
     isLoading: pending,
+    setMessages,
   } = useAiChat({
     api: `/api/chat`,
     headers: {
@@ -35,20 +37,30 @@ const useChat = () => {
     initialMessages,
     onError: console.error,
     onFinish: async (message) => {
-      await trackNewMessage(address as Address, {
-        content: message.content,
-        role: message.role,
-        id: `${address}-${Date.now().toLocaleString()}`,
-      });
-      const response = await fetch(`/api/prompts?answer=${message.content}`);
-      const data = await response.json();
-
-      setSuggestions(data.questions);
+      await finalCallback(message);
       void queryClient.invalidateQueries({
         queryKey: ["credits", accountId],
       });
     },
   });
+
+  const clearQuery = async () => {
+    const messages = await fetchInitialMessages(address);
+    setMessages(messages);
+  };
+
+  const finalCallback = async (message: Message) => {
+    if (!message.content) return;
+    await trackNewMessage(address as Address, {
+      content: encodeURIComponent(message.content),
+      role: message.role,
+      id: uuidV4(),
+    });
+    const response = await fetch(`/api/prompts?answer=${message.content}`);
+    const data = await response.json();
+
+    setSuggestions(data.questions);
+  };
 
   const isPrepared = () => {
     if (!address) {
@@ -83,6 +95,8 @@ const useChat = () => {
     handleSubmit,
     append,
     pending,
+    finalCallback,
+    clearQuery,
   };
 };
 
