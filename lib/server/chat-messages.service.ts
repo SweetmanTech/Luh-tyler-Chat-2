@@ -54,18 +54,19 @@ Please use this information to provide accurate and relevant responses and don't
           4. Tracks
           5. Audio books
           6. Shows
-          7. Fans (including premium, free, or total counts)
+          7. Fans (including premium, free, or total counts & casual, active, super counts)
           8. Listening habits (from any platform, including Spotify and Apple)
           9. Campaign insights or data
           10. Any comparison or analysis of music consumption or fan behavior
 
           Do NOT attempt to answer questions on these topics without calling this tool first.
 
-          Example questions that MUST trigger this tool:
+          Example questions:
           - "What are the listening habits from Spotify and Apple?"
           - "How many fans does the artist have?"
           - "What insights can we draw from the latest campaign?"
           - "How many premium subscribers are there?"
+          - "How many super fans are there?"
 
           When in doubt, call this tool to ensure you have the most up-to-date and accurate information.`,
           parameters: z.object({}),
