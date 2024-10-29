@@ -23,7 +23,9 @@ const Message = ({
     message?.toolInvocations;
 
   const content = message.content || answer;
-  const fans = context?.fans?.filter((fan: FAN_TYPE) => fan.name !== "Unknown");
+  const fans = context?.fans?.filter(
+    (fan: FAN_TYPE) => fan.display_name && fan.email,
+  );
 
   const scrollTo = () => scroll({ smooth: true, y: Number.MAX_SAFE_INTEGER });
   useEffect(() => {
@@ -35,9 +37,7 @@ const Message = ({
   }, [content, context]);
 
   return (
-    <div
-      className={`p-3 rounded-lg flex ${context && `flex-col`} w-full gap-2 ${isHidden && "hidden"}`}
-    >
+    <div className={`p-3 rounded-lg flex w-full gap-2 ${isHidden && "hidden"}`}>
       <div className="size-fit">
         {message.role === "user" ? (
           <UserIcon className="h-6 w-6" />
@@ -45,19 +45,21 @@ const Message = ({
           <TvMinimalPlay className="h-6 w-6" />
         )}
       </div>
-      {toolName === "getCampaign" && context && (
-        <FanTable fans={fans} scroll={scroll} />
-      )}
-      {loading && !message.content && !answer ? (
-        <div className="flex gap-2 items-center">
-          <p>is thinking...</p>
-          <LoaderCircle className="h-4 w-4 animate-spin" />
-        </div>
-      ) : (
-        <div className="text-sm font-sans text-pretty break-words">
-          <ReactMarkdown>{content}</ReactMarkdown>
-        </div>
-      )}
+      <div>
+        {toolName === "getCampaign" && context && (
+          <FanTable fans={fans} scroll={scroll} />
+        )}
+        {loading && !message.content && !answer ? (
+          <div className="flex gap-2 items-center">
+            <p>is thinking...</p>
+            <LoaderCircle className="h-4 w-4 animate-spin" />
+          </div>
+        ) : (
+          <div className="text-sm font-sans text-pretty break-words">
+            <ReactMarkdown>{content}</ReactMarkdown>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

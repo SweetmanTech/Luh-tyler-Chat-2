@@ -14,10 +14,9 @@ import { INSTRUCTION } from "./const";
 const getChatContext = async () => {
   const context = [];
   const client = getSupabaseServerAdminClient();
+
   const scores: SCORE_EVENT[] = await getUsersScore();
-
   context.push(INSTRUCTION);
-
   let scoreContext = `\n3. Scores of fan ( please calculate a count for each username to indicate the number of times each player has played the game.) \n`;
   scores.map((score: SCORE_EVENT) => {
     scoreContext =
