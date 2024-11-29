@@ -51,16 +51,18 @@ const useToolCall = (message: Message) => {
         if (toolName === "getArtistAnalysis") {
           setIsSearchingTrends(true);
           const profile = await getTikTokProfile(context?.username);
+          setIsSearchingTrends(false);
           const videoComments = await getVideoComments(
             encodeURIComponent(JSON.stringify(profile?.videos)),
           );
+          setIsGettingVideos(true);
           setTiktokTrends({
             ...profile,
             videos: videoComments.videos,
             total_video_comments_count:
               videoComments.total_video_comments_count,
           });
-          setIsSearchingTrends(false);
+          setIsGettingVideos(false);
         }
         if (toolName === "getVideosInfo") {
           setIsGettingVideos(true);
