@@ -1,6 +1,9 @@
 import instructions from "@/evals/scripts/instructions.json";
 
-import { HTML_RESPONSE_FORMAT_INSTRUCTIONS } from "../consts";
+import {
+  HTML_RESPONSE_FORMAT_INSTRUCTIONS,
+  REPORT_SUMMARY_NOTE,
+} from "../consts";
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 const toolSystemMessage = (context: any, question: any, toolName: string) => {
@@ -29,7 +32,8 @@ const toolSystemMessage = (context: any, question: any, toolName: string) => {
     Context: ${JSON.stringify(context)}
     Question: ${question}
     ${instructions.get_segments_report_summary}
-    ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}`;
+    ${HTML_RESPONSE_FORMAT_INSTRUCTIONS}
+    NOTE: ${REPORT_SUMMARY_NOTE}`;
 
   return "";
 };

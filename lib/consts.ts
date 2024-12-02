@@ -19,11 +19,16 @@ export const SUGGESTIONS = [
 
 export const HTML_RESPONSE_FORMAT_INSTRUCTIONS = `
   Please provide a wide range of HTML formats with embedded HTML tags such as <div>, <p>, <ul>, <li>, and <span>, along with CSS styles including font size, margin, and padding. 
-   - Please do not include any color styles. The font size for all text should be 14px. Paragraph should be left padding 8px & top padding 4px for indentation, while the font size for heading tags (h1 to h6) should be always 14px & font-bold.
+   - Please do not include any color styles. The font size for all text should be 14px. Paragraph should be left padding 8px & top padding 4px for indentation.
    - All Numbers & Proper nouns should bold using <span>.
    - Don't INCLUDE <br/> tags.
    - If there is a LIST OF DATA of the same type, BE SURE to use the <ul> <li> tags. The CSS [list-style] for <li> should be set to "inside".
    - Make sure to present the HTML response as plain HTML without any enclosing code markers or delimiters.`;
+
+export const REPORT_SUMMARY_NOTE = `
+  - For **lists of data**, use **commas** as separators instead of <li />, <ul /> tags. DON' USE <li>, <ul> tags!!!.
+  - **Sub-titles** for sections such as **Size**, **Demo**, **Trends**, **Top Brands** should be 14px & font-bold & <span />.
+  - **Title** of response should be 18px & font-bold and bottom padding 12px.`;
 
 export const ICONS = [
   "AArrowDown",

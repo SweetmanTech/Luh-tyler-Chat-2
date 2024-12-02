@@ -25,7 +25,7 @@ For Example:
       const data = await getTikTokAnalysis(analysis_id);
       const segment = data.segments.find(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (item: any) => Object.keys(item)[0] === segment_name,
+        (item: any) => item.name === segment_name,
       );
 
       return {
@@ -34,7 +34,7 @@ For Example:
           analysis: {
             ...data,
             segment_name: segment_name,
-            segment_size: segment[`${segment_name}`],
+            segment_size: segment.count,
           },
         },
         question,

@@ -4,6 +4,7 @@ import { useToolCallProvider } from "@/providers/ToolCallProvider";
 import ToolFollowUp from "../Tools/ToolFollowUp";
 import Icon from "../Icon";
 import { useChatProvider } from "@/providers/ChatProvider";
+import ReportSummaryNote from "./ReportSummaryNote";
 
 const Message = ({ message, index }: { message: AIMessage; index: number }) => {
   const { context, loading } = useToolCallProvider();
@@ -20,10 +21,7 @@ const Message = ({ message, index }: { message: AIMessage; index: number }) => {
         {context && <ToolContent />}
         <ToolFollowUp message={message} />
         {reportEnabled && index === 0 && !pending && !loading && (
-          <button
-            type="button"
-            className="text-purple-dark mt-6"
-          >{`[Download Full Report PDF]`}</button>
+          <ReportSummaryNote />
         )}
       </div>
     </div>
