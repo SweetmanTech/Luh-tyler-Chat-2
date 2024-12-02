@@ -9,6 +9,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import { STEP_OF_ANALYSIS } from "@/types/Thought";
+import getSegmentsIcons from "@/lib/getSegmentsIcons";
 
 const useTikTokAnalysis = () => {
   const [username, setUsername] = useState("");
@@ -71,16 +72,17 @@ const useTikTokAnalysis = () => {
         total_video_comments_count: videoComments.total_video_comments_count,
       };
       setResult(profileWithComments);
-      let fanSegments = [];
+      let fanSegmentsWithIcons = [];
       if (videoComments.videos.length > 0) {
         setThought(STEP_OF_ANALYSIS.SEGMENTS);
-        fanSegments = await getFanSegments(profileWithComments);
-        setSegments([...fanSegments]);
+        const fanSegments = await getFanSegments(profileWithComments);
+        fanSegmentsWithIcons = await getSegmentsIcons(fanSegments);
+        setSegments([...fanSegmentsWithIcons]);
       }
       setThought(STEP_OF_ANALYSIS.SAVING_ANALYSIS);
       const data = await saveAnalysis({
         ...profileWithComments,
-        segments: [...fanSegments],
+        segments: [...fanSegmentsWithIcons],
         chat_id: newId,
       });
       setResult({
