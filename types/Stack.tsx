@@ -15,6 +15,7 @@ export type Conversation = {
     questionId: string;
     uniqueId: string;
   };
+  title?: string;
   points: number;
   timestamp: string;
 };

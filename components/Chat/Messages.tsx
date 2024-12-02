@@ -18,7 +18,7 @@ const Messages = ({
   className?: string;
   children?: React.ReactNode;
 }) => {
-  const { messages, pending, suggestions } = useChatProvider();
+  const { messages, pending, suggestions, reportEnabled } = useChatProvider();
   const scrollTo = () => scroll({ smooth: true, y: Number.MAX_SAFE_INTEGER });
   const { conversation: conversationId } = useParams();
 
@@ -32,11 +32,13 @@ const Messages = ({
       className={`w-full mt-4 max-w-3xl mx-auto overflow-y-auto ${messages.length && "grow"} ${className}`}
     >
       {children || <div />}
-      {messages.map((message: AIMessage, index: number) => (
-        <ToolCallProvider message={message} scrollTo={scrollTo} key={index}>
-          <Message message={message} />
-        </ToolCallProvider>
-      ))}
+      {messages
+        .slice(reportEnabled ? 1 : 0)
+        .map((message: AIMessage, index: number) => (
+          <ToolCallProvider message={message} scrollTo={scrollTo} key={index}>
+            <Message message={message} index={index} />
+          </ToolCallProvider>
+        ))}
       {pending && <Thinking />}
       {conversationId && !pending && messages.length > 0 && (
         <div className="flex gap-2 items-center md:px-9 py-4">

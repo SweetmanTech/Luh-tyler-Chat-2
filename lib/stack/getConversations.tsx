@@ -43,7 +43,13 @@ const getConversations = async (walletAddress: Address) => {
     const event = item.event;
 
     if (!aggregation[event]) {
-      aggregation[event] = item;
+      aggregation[event] = {
+        ...item,
+        title: item?.metadata?.title || "",
+      };
+    }
+    if (item?.metadata?.title) {
+      aggregation[event].title = item.metadata.title;
     }
   });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
