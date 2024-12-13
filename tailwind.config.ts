@@ -11,7 +11,9 @@ const config: Config = {
       fontFamily: {
         inter_medium: ["Inter Medium", "sans-serif"],
         inter_bold: ["Inter Bold", "sans-serif"],
-        plus_jakarta_sans_bold: ["PlusJakartaSans Bold", "sans-serif"]
+        inter: ["Inter Regular", "sans-serif"],
+        plus_jakarta_sans_bold: ["PlusJakartaSans Bold", "sans-serif"],
+        plus_jakarta_sans: ["PlusJakartaSans Regular", "sans-serif"]
       },
       colors: {
         background: {
@@ -20,13 +22,17 @@ const config: Config = {
         },
         black: {
           DEFAULT: "#000000",
+          light: "#444444"
         },
         while: {
           DEFAULT: "#ffffff"
         },
         grey: {
           DEFAULT: "#E6E6E6",
-          dark: "#71717A"
+          dark: "#71717A",
+          primary: "#C6C6C6",
+          secondary: "#F8F8F8",
+          light: "#E0E0E0"
         },
         green: {
           DEFAULT: "#345A5D"

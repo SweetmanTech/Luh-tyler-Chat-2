@@ -1,13 +1,8 @@
 "use client";
 
 import { useTikTokAnalysisProvider } from "@/providers/TIkTokAnalysisProvider";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import AnalysisButton from "./AnalysisButton";
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["600"],
-});
+import Icon from "@/components/Icon";
 
 const TikTokAccountInput = () => {
   const { username, setUsername } = useTikTokAnalysisProvider();
@@ -15,9 +10,15 @@ const TikTokAccountInput = () => {
   return (
     <main className="flex-1 md:p-4 bg-background">
       <div className="h-[calc(100vh-64px)] md:h-full flex flex-col items-center justify-center px-4 sm:px-6 text-center bg-white rounded-xl">
+        <div className="bg-grey-secondary px-3 py-2 rounded-full flex items-center gap-2 mb-4">
+          <Icon name="black-star" />
+          <p className="font-plus_jakarta_sans_bold text-sm text-black-light">
+            Made for Creators
+          </p>
+        </div>
         <h1
           className={`
-            ${plusJakartaSans.className}
+            font-plus_jakarta_sans_bold
             text-[32px]
             sm:text-3xl 
             lg:text-[32px] 
@@ -25,13 +26,11 @@ const TikTokAccountInput = () => {
             tracking-[-0.5px] 
             mb-4
             sm:mb-5
-            font-semibold
-            max-w-[700px]
+            max-w-[800px]
             mx-auto
-            px-2
           `}
         >
-          Analyze Your TikTok Followers in Seconds
+          Turn Your Fans Into Brand Deals—Automatically.
         </h1>
         <p
           className="
@@ -46,15 +45,17 @@ const TikTokAccountInput = () => {
             sm:px-2
             leading-relaxed
             sm:leading-normal
+            font-plus_jakarta_sans
           "
         >
           <span className="sm:hidden">
-            Discover who your real fans are
-            <br />
-            and what they care about.
+            Our AI agents analyze your followers, uncover brand opportunities,
+            and deliver actionable insights—24/7.
           </span>
           <span className="hidden sm:block">
-            Discover who your real fans are and what they care about.
+            Our AI agents analyze your followers, uncover brand
+            <br />
+            opportunities, and deliver actionable insights—24/7.
           </span>
         </p>
         <div className="flex flex-col items-center justify-center gap-4 px-4">
@@ -99,9 +100,12 @@ const TikTokAccountInput = () => {
                 md:max-w-full
               "
             />
-            <AnalysisButton className="absolute right-2 top-1/2 -translate-y-1/2 md:block hidden" />
+            <AnalysisButton
+              className="absolute right-2 top-1/2 -translate-y-1/2"
+              containerClasses="md:block hidden"
+            />
           </div>
-          <AnalysisButton className="md:hidden block" />
+          <AnalysisButton containerClasses="md:hidden block" />
         </div>
       </div>
     </main>
